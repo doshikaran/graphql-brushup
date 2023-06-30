@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import {ApolloClient, InMemoryCache, ApolloProvider} from "@apollo/client"
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import HomePage from "./pages/HomePage";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    uri:"https://countries.trevorblades.com"
+  })
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <ApolloProvider client={client}>
+    <div>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<HomePage />} />
+          <Route exact path="/search" element={<SearchPage />} />
+        </Routes>
+      </Router>
     </div>
+  </ApolloProvider>
   );
 }
 
